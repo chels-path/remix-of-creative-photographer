@@ -1,0 +1,182 @@
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  Package,
+  Truck,
+  Plane,
+  Ship,
+  Users,
+  Phone,
+  Menu,
+  X,
+  ChevronRight,
+} from "lucide-react";
+
+const navItems = [
+  { name: "Home", path: "/", icon: Home },
+  { name: "Services", path: "/services", icon: Package },
+  { name: "Track Shipment", path: "/tracking", icon: Truck },
+  { name: "Air Freight", path: "/air-freight", icon: Plane },
+  { name: "Ocean Freight", path: "/ocean-freight", icon: Ship },
+  { name: "About Us", path: "/about", icon: Users },
+  { name: "Contact", path: "/contact", icon: Phone },
+];
+
+export function Sidebar() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <nav className="flex flex-col h-full py-8">
+      {/* Logo */}
+      <Link
+        to="/"
+        className="flex items-center gap-3 px-6 mb-12"
+        onClick={() => isMobile && setIsMobileOpen(false)}
+      >
+        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+          <Package className="w-5 h-5 text-primary-foreground" />
+        </div>
+        <AnimatePresence>
+          {(isExpanded || isMobile) && (
+            <motion.span
+              initial={{ opacity: 0, width: 0 }}
+              animate={{ opacity: 1, width: "auto" }}
+              exit={{ opacity: 0, width: 0 }}
+              className="text-xl font-bold text-foreground whitespace-nowrap overflow-hidden"
+            >
+              SwiftLogix
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </Link>
+
+      {/* Navigation Items */}
+      <div className="flex-1 flex flex-col gap-2 px-3">
+        {navItems.map((item, index) => {
+          const Icon = item.icon;
+          const active = isActive(item.path);
+
+          return (
+            <motion.div
+              key={item.path}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <Link
+                to={item.path}
+                onClick={() => isMobile && setIsMobileOpen(false)}
+                className={`
+                  group flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300
+                  ${active
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  }
+                `}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <AnimatePresence>
+                  {(isExpanded || isMobile) && (
+                    <motion.span
+                      initial={{ opacity: 0, width: 0 }}
+                      animate={{ opacity: 1, width: "auto" }}
+                      exit={{ opacity: 0, width: 0 }}
+                      className="font-medium whitespace-nowrap overflow-hidden"
+                    >
+                      {item.name}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                {(isExpanded || isMobile) && (
+                  <ChevronRight
+                    className={`w-4 h-4 ml-auto transition-transform ${
+                      active ? "opacity-100" : "opacity-0 group-hover:opacity-50"
+                    }`}
+                  />
+                )}
+              </Link>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div className="px-6 pt-6 border-t border-border/50">
+        <AnimatePresence>
+          {(isExpanded || isMobile) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-xs text-muted-foreground"
+            >
+              <p>© 2026 SwiftLogix</p>
+              <p className="mt-1">Global Logistics Solutions</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </nav>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <motion.aside
+        initial={false}
+        animate={{ width: isExpanded ? 280 : 80 }}
+        onMouseEnter={() => setIsExpanded(true)}
+        onMouseLeave={() => setIsExpanded(false)}
+        className="hidden lg:flex fixed left-0 top-0 h-screen z-50 flex-col bg-transparent"
+      >
+        <div className="h-full glass-effect border-r border-border/30">
+          <SidebarContent />
+        </div>
+      </motion.aside>
+
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsMobileOpen(true)}
+        className="lg:hidden fixed top-6 left-6 z-50 w-12 h-12 rounded-xl glass-effect flex items-center justify-center text-foreground border border-border/30"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileOpen(false)}
+              className="lg:hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
+            />
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="lg:hidden fixed left-0 top-0 h-screen w-72 z-50 bg-card border-r border-border"
+            >
+              <button
+                onClick={() => setIsMobileOpen(false)}
+                className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-secondary flex items-center justify-center text-foreground"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <SidebarContent isMobile />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
