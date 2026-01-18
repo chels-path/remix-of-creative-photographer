@@ -14,7 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      shipment_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          location: string
+          occurred_at: string
+          shipment_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          location: string
+          occurred_at?: string
+          shipment_id: string
+          status: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          location?: string
+          occurred_at?: string
+          shipment_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipment_events_shipment_id_fkey"
+            columns: ["shipment_id"]
+            isOneToOne: false
+            referencedRelation: "shipments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shipments: {
+        Row: {
+          actual_delivery: string | null
+          created_at: string
+          destination_city: string
+          destination_country: string
+          estimated_delivery: string | null
+          id: string
+          origin_city: string
+          origin_country: string
+          recipient_name: string | null
+          sender_name: string | null
+          status: string
+          tracking_number: string
+          updated_at: string
+          weight_kg: number | null
+        }
+        Insert: {
+          actual_delivery?: string | null
+          created_at?: string
+          destination_city: string
+          destination_country: string
+          estimated_delivery?: string | null
+          id?: string
+          origin_city: string
+          origin_country: string
+          recipient_name?: string | null
+          sender_name?: string | null
+          status?: string
+          tracking_number: string
+          updated_at?: string
+          weight_kg?: number | null
+        }
+        Update: {
+          actual_delivery?: string | null
+          created_at?: string
+          destination_city?: string
+          destination_country?: string
+          estimated_delivery?: string | null
+          id?: string
+          origin_city?: string
+          origin_country?: string
+          recipient_name?: string | null
+          sender_name?: string | null
+          status?: string
+          tracking_number?: string
+          updated_at?: string
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

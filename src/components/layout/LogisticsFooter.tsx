@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { CustomerChatWidget } from "@/components/chat/CustomerChatWidget";
 import { Package, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 
 const footerLinks = {
@@ -40,10 +41,12 @@ export function LogisticsFooter() {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Package className="w-5 h-5 text-primary-foreground" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
+                <span className="text-lg font-black text-primary-foreground">SL</span>
               </div>
-              <span className="text-xl font-bold">SwiftLogix</span>
+              <span className="text-xl font-black tracking-tight">
+                Swift<span className="text-primary">Logix</span>
+              </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
               Your trusted partner in global logistics. We deliver excellence 

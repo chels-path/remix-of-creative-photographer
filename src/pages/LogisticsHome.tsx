@@ -4,6 +4,7 @@ import { ServicesPreview } from "@/components/home/ServicesPreview";
 import { FeaturesSection } from "@/components/home/FeaturesSection";
 import { CTASection } from "@/components/home/CTASection";
 import { LogisticsFooter } from "@/components/layout/LogisticsFooter";
+import { CustomerChatWidget } from "@/components/chat/CustomerChatWidget";
 
 export default function LogisticsHome() {
   return (
@@ -16,6 +17,7 @@ export default function LogisticsHome() {
         <CTASection />
         <LogisticsFooter />
       </main>
+      <CustomerChatWidget />
     </div>
   );
 }

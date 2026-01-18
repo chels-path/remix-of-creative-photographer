@@ -72,14 +72,14 @@ export function ServicesPreview() {
                   to={service.link}
                   className="group relative block h-full overflow-hidden rounded-2xl bg-secondary border border-border transition-all hover:border-primary/50"
                 >
-                  {/* Background Image */}
-                  <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
+                  {/* Background Image - Enhanced Visibility */}
+                  <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity">
                     <img
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/60 to-transparent" />
                   </div>
 
                   {/* Content */}

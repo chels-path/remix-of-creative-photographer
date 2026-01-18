@@ -33,25 +33,27 @@ export function Sidebar() {
 
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <nav className="flex flex-col h-full py-8">
-      {/* Logo */}
+      {/* Logo - Text Based */}
       <Link
         to="/"
         className="flex items-center gap-3 px-6 mb-12"
         onClick={() => isMobile && setIsMobileOpen(false)}
       >
-        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-          <Package className="w-5 h-5 text-primary-foreground" />
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
+          <span className="text-lg font-black text-primary-foreground">SL</span>
         </div>
         <AnimatePresence>
           {(isExpanded || isMobile) && (
-            <motion.span
+            <motion.div
               initial={{ opacity: 0, width: 0 }}
               animate={{ opacity: 1, width: "auto" }}
               exit={{ opacity: 0, width: 0 }}
-              className="text-xl font-bold text-foreground whitespace-nowrap overflow-hidden"
+              className="overflow-hidden"
             >
-              SwiftLogix
-            </motion.span>
+              <span className="text-xl font-black text-foreground whitespace-nowrap tracking-tight">
+                Swift<span className="text-primary">Logix</span>
+              </span>
+            </motion.div>
           )}
         </AnimatePresence>
       </Link>

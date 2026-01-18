@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Enhanced Visibility */}
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2070&q=80"
           alt="Shipping containers at port"
-          className="w-full h-full object-cover opacity-30"
+          className="w-full h-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/20" />
       </div>
 
       {/* Floating Graphics */}
