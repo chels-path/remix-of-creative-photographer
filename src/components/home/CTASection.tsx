@@ -5,16 +5,16 @@ import { Link } from "react-router-dom";
 export function CTASection() {
   return (
     <section className="py-24 bg-card relative overflow-hidden">
-      {/* Background Elements */}
+      {/* Background Elements - Enhanced Visibility */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
+        <div className="absolute top-0 right-0 w-2/3 h-full opacity-30">
           <img
             src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80"
             alt=""
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-card via-card to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-card via-card/80 to-card/30" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 lg:pl-[120px]">
