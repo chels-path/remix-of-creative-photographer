@@ -16,8 +16,9 @@ import {
 
 const navItems = [
   { name: "Home", path: "/", icon: Home },
-  { name: "Services", path: "/services", icon: Package },
+  { name: "Ship Now", path: "/ship-now", icon: Package },
   { name: "Track Shipment", path: "/tracking", icon: Truck },
+  { name: "Services", path: "/services", icon: Plane },
   { name: "Air Freight", path: "/air-freight", icon: Plane },
   { name: "Ocean Freight", path: "/ocean-freight", icon: Ship },
   { name: "About Us", path: "/about", icon: Users },

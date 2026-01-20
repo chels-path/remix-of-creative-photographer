@@ -111,10 +111,10 @@ export function HeroSection() {
             className="flex flex-wrap gap-4"
           >
             <Link
-              to="/services"
+              to="/ship-now"
               className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold transition-all hover:bg-primary/90 orange-glow"
             >
-              Get Started
+              Ship Now
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link

@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 const LogisticsHome = lazy(() => import("./pages/LogisticsHome"));
 const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const TrackingPage = lazy(() => import("./pages/TrackingPage"));
+const ShipNowPage = lazy(() => import("./pages/ShipNowPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/" element={<LogisticsHome />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/tracking" element={<TrackingPage />} />
+            <Route path="/ship-now" element={<ShipNowPage />} />
             <Route path="/air-freight" element={<ServicesPage />} />
             <Route path="/ocean-freight" element={<ServicesPage />} />
             <Route path="/about" element={<AboutPage />} />
