@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ShipmentEvent {
@@ -28,6 +28,7 @@ interface Shipment {
 interface TrackingResult {
   shipment: Shipment | null;
   events: ShipmentEvent[];
+  sessionToken: string | null;
 }
 
 export function useShipmentTracking() {
@@ -35,52 +36,6 @@ export function useShipmentTracking() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<TrackingResult | null>(null);
-
-  // Subscribe to realtime updates
-  useEffect(() => {
-    if (!result?.shipment?.id) return;
-
-    const channel = supabase
-      .channel(`shipment_${result.shipment.id}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "shipment_events",
-          filter: `shipment_id=eq.${result.shipment.id}`,
-        },
-        async () => {
-          // Refetch events when there's a change
-          const { data: events } = await supabase
-            .from("shipment_events")
-            .select("*")
-            .eq("shipment_id", result.shipment!.id)
-            .order("occurred_at", { ascending: true });
-
-          if (events) {
-            setResult((prev) => prev ? { ...prev, events: events as ShipmentEvent[] } : null);
-          }
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "shipments",
-          filter: `id=eq.${result.shipment.id}`,
-        },
-        (payload) => {
-          setResult((prev) => prev ? { ...prev, shipment: payload.new as Shipment } : null);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [result?.shipment?.id]);
 
   const trackShipment = async (number: string) => {
     if (!number.trim()) {
@@ -93,39 +48,80 @@ export function useShipmentTracking() {
     setResult(null);
 
     try {
-      // Fetch shipment
-      const { data: shipment, error: shipmentError } = await supabase
-        .from("shipments")
-        .select("*")
-        .eq("tracking_number", number.trim().toUpperCase())
-        .maybeSingle();
+      // Use secure RPC function to verify tracking number and get shipment data
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: verifyResult, error: verifyError } = await (supabase.rpc as any)(
+        "verify_tracking_number", 
+        { p_tracking_number: number.trim() }
+      );
 
-      if (shipmentError) throw shipmentError;
+      if (verifyError) throw verifyError;
 
-      if (!shipment) {
-        setError("No shipment found with this tracking number. Please check and try again.");
+      const response = verifyResult as {
+        success: boolean;
+        error?: string;
+        session_token?: string;
+        shipment?: Shipment;
+      };
+
+      if (!response.success) {
+        setError(response.error || "No shipment found with this tracking number. Please check and try again.");
         setIsLoading(false);
         return;
       }
 
-      // Fetch events
-      const { data: events, error: eventsError } = await supabase
-        .from("shipment_events")
-        .select("*")
-        .eq("shipment_id", shipment.id)
-        .order("occurred_at", { ascending: true });
+      // Fetch events using the session token
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: eventsResult, error: eventsError } = await (supabase.rpc as any)(
+        "get_shipment_events", 
+        { p_session_token: response.session_token }
+      );
 
       if (eventsError) throw eventsError;
 
+      const eventsResponse = eventsResult as {
+        success: boolean;
+        error?: string;
+        events?: ShipmentEvent[];
+      };
+
       setResult({
-        shipment: shipment as Shipment,
-        events: (events || []) as ShipmentEvent[],
+        shipment: response.shipment || null,
+        events: eventsResponse.events || [],
+        sessionToken: response.session_token || null,
       });
     } catch (err) {
       console.error("Tracking error:", err);
       setError("An error occurred while tracking. Please try again.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function to refresh events using stored session token
+  const refreshEvents = async () => {
+    if (!result?.sessionToken) return;
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: eventsResult, error: eventsError } = await (supabase.rpc as any)(
+        "get_shipment_events", 
+        { p_session_token: result.sessionToken }
+      );
+
+      if (eventsError) throw eventsError;
+
+      const eventsResponse = eventsResult as {
+        success: boolean;
+        error?: string;
+        events?: ShipmentEvent[];
+      };
+
+      if (eventsResponse.success) {
+        setResult((prev) => prev ? { ...prev, events: eventsResponse.events || [] } : null);
+      }
+    } catch (err) {
+      console.error("Error refreshing events:", err);
     }
   };
 
@@ -142,6 +138,7 @@ export function useShipmentTracking() {
     error,
     result,
     trackShipment,
+    refreshEvents,
     reset,
   };
 }
