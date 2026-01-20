@@ -42,10 +42,10 @@ export function LogisticsFooter() {
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
-                <span className="text-lg font-black text-primary-foreground">SL</span>
+                <span className="text-lg font-black text-primary-foreground">CL</span>
               </div>
               <span className="text-xl font-black tracking-tight">
-                Swift<span className="text-primary">Logix</span>
+                Chels<span className="text-primary">Logix</span>
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -55,9 +55,9 @@ export function LogisticsFooter() {
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <a href="mailto:info@swiftlogix.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
+              <a href="mailto:info@chelslogix.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Mail className="w-4 h-4" />
-                info@swiftlogix.com
+                info@chelslogix.com
               </a>
               <a href="tel:+1234567890" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4" />
@@ -125,7 +125,7 @@ export function LogisticsFooter() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2026 SwiftLogix. All rights reserved.
+            © 2026 ChelsLogix. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {socialLinks.map((social) => {

@@ -83,7 +83,7 @@ export default function TrackingPage() {
               </h1>
               <p className="text-muted-foreground text-lg mb-10">
                 Enter your tracking number to get live updates on your shipment status.
-                Try: <button onClick={() => setTrackingNumber("SWL-2026-0118-7890")} className="text-primary font-mono hover:underline">SWL-2026-0118-7890</button>
+                Try: <button onClick={() => setTrackingNumber("CL-2026-0118-7890")} className="text-primary font-mono hover:underline">CL-2026-0118-7890</button>
               </p>
 
               {/* Tracking Form */}
@@ -94,7 +94,7 @@ export default function TrackingPage() {
                     type="text"
                     value={trackingNumber}
                     onChange={(e) => setTrackingNumber(e.target.value.toUpperCase())}
-                    placeholder="Enter tracking number (e.g., SWL-2026-0118-7890)"
+                    placeholder="Enter tracking number (e.g., CL-2026-0118-7890)"
                     className="w-full pl-12 pr-4 py-4 bg-secondary/80 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary font-mono"
                   />
                 </div>

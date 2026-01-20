@@ -40,7 +40,7 @@ export function Sidebar() {
         onClick={() => isMobile && setIsMobileOpen(false)}
       >
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
-          <span className="text-lg font-black text-primary-foreground">SL</span>
+          <span className="text-lg font-black text-primary-foreground">CL</span>
         </div>
         <AnimatePresence>
           {(isExpanded || isMobile) && (
@@ -51,7 +51,7 @@ export function Sidebar() {
               className="overflow-hidden"
             >
               <span className="text-xl font-black text-foreground whitespace-nowrap tracking-tight">
-                Swift<span className="text-primary">Logix</span>
+                Chels<span className="text-primary">Logix</span>
               </span>
             </motion.div>
           )}
@@ -118,7 +118,7 @@ export function Sidebar() {
               exit={{ opacity: 0 }}
               className="text-xs text-muted-foreground"
             >
-              <p>© 2026 SwiftLogix</p>
+              <p>© 2026 ChelsLogix</p>
               <p className="mt-1">Global Logistics Solutions</p>
             </motion.div>
           )}
