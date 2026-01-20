@@ -12,8 +12,12 @@ interface Message {
 
 const generateSessionId = () => {
   const existing = localStorage.getItem("chat_session_id");
-  if (existing) return existing;
-  const newId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  // Validate existing ID is UUID format
+  if (existing && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(existing)) {
+    return existing;
+  }
+  // Generate cryptographically random UUID
+  const newId = crypto.randomUUID();
   localStorage.setItem("chat_session_id", newId);
   return newId;
 };
