@@ -127,6 +127,99 @@ export type Database = {
         }
         Relationships: []
       }
+      shipping_orders: {
+        Row: {
+          created_at: string
+          currency: string | null
+          declared_value: number | null
+          destination_address: string
+          destination_city: string
+          destination_country: string
+          destination_email: string | null
+          destination_name: string
+          destination_phone: string
+          height_cm: number | null
+          id: string
+          insurance_included: boolean | null
+          length_cm: number | null
+          order_number: string
+          origin_address: string
+          origin_city: string
+          origin_country: string
+          origin_email: string
+          origin_name: string
+          origin_phone: string
+          package_description: string | null
+          quoted_price: number
+          session_id: string
+          shipping_method: string
+          status: string
+          updated_at: string
+          weight_kg: number
+          width_cm: number | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string | null
+          declared_value?: number | null
+          destination_address: string
+          destination_city: string
+          destination_country: string
+          destination_email?: string | null
+          destination_name: string
+          destination_phone: string
+          height_cm?: number | null
+          id?: string
+          insurance_included?: boolean | null
+          length_cm?: number | null
+          order_number: string
+          origin_address: string
+          origin_city: string
+          origin_country: string
+          origin_email: string
+          origin_name: string
+          origin_phone: string
+          package_description?: string | null
+          quoted_price: number
+          session_id: string
+          shipping_method?: string
+          status?: string
+          updated_at?: string
+          weight_kg: number
+          width_cm?: number | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string | null
+          declared_value?: number | null
+          destination_address?: string
+          destination_city?: string
+          destination_country?: string
+          destination_email?: string | null
+          destination_name?: string
+          destination_phone?: string
+          height_cm?: number | null
+          id?: string
+          insurance_included?: boolean | null
+          length_cm?: number | null
+          order_number?: string
+          origin_address?: string
+          origin_city?: string
+          origin_country?: string
+          origin_email?: string
+          origin_name?: string
+          origin_phone?: string
+          package_description?: string | null
+          quoted_price?: number
+          session_id?: string
+          shipping_method?: string
+          status?: string
+          updated_at?: string
+          weight_kg?: number
+          width_cm?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
