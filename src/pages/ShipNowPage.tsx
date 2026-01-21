@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { LogisticsFooter } from "@/components/layout/LogisticsFooter";
 import { CustomerChatWidget } from "@/components/chat/CustomerChatWidget";
@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const shippingMethods = [
   { 
@@ -108,6 +109,21 @@ export default function ShipNowPage() {
   const [quote, setQuote] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const updateForm = (field: keyof FormData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -195,6 +211,7 @@ export default function ShipNowPage() {
         insurance_included: formData.insurance,
         quoted_price: quote,
         session_id: getSessionId(),
+        user_id: user?.id || null,
       });
 
       if (error) throw error;
