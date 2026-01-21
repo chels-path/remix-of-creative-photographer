@@ -155,6 +155,7 @@ export type Database = {
           shipping_method: string
           status: string
           updated_at: string
+          user_id: string | null
           weight_kg: number
           width_cm: number | null
         }
@@ -185,6 +186,7 @@ export type Database = {
           shipping_method?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
           weight_kg: number
           width_cm?: number | null
         }
@@ -215,6 +217,7 @@ export type Database = {
           shipping_method?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
           weight_kg?: number
           width_cm?: number | null
         }
