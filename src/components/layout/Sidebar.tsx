@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,15 +12,17 @@ import {
   Menu,
   X,
   ChevronRight,
+  User,
+  LogIn,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navItems = [
   { name: "Home", path: "/", icon: Home },
   { name: "Ship Now", path: "/ship-now", icon: Package },
   { name: "Track Shipment", path: "/tracking", icon: Truck },
   { name: "Services", path: "/services", icon: Plane },
-  { name: "Air Freight", path: "/air-freight", icon: Plane },
-  { name: "Ocean Freight", path: "/ocean-freight", icon: Ship },
   { name: "About Us", path: "/about", icon: Users },
   { name: "Contact", path: "/contact", icon: Phone },
 ];
@@ -28,7 +30,22 @@ const navItems = [
 export function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -109,22 +126,51 @@ export function Sidebar() {
         })}
       </div>
 
-      {/* Footer */}
-      <div className="px-6 pt-6 border-t border-border/50">
-        <AnimatePresence>
-          {(isExpanded || isMobile) && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-xs text-muted-foreground"
-            >
-              <p>© 2026 ChelsLogix</p>
-              <p className="mt-1">Global Logistics Solutions</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+        {/* Account Link */}
+        <div className="px-3 mb-4">
+          <Link
+            to={user ? "/dashboard" : "/auth"}
+            onClick={() => isMobile && setIsMobileOpen(false)}
+            className={`
+              group flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300
+              ${isActive(user ? "/dashboard" : "/auth")
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }
+            `}
+          >
+            {user ? <User className="w-5 h-5 flex-shrink-0" /> : <LogIn className="w-5 h-5 flex-shrink-0" />}
+            <AnimatePresence>
+              {(isExpanded || isMobile) && (
+                <motion.span
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  className="font-medium whitespace-nowrap overflow-hidden"
+                >
+                  {user ? "Dashboard" : "Sign In"}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </Link>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 pt-6 border-t border-border/50">
+          <AnimatePresence>
+            {(isExpanded || isMobile) && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-xs text-muted-foreground"
+              >
+                <p>© 2026 ChelsLogix</p>
+                <p className="mt-1">Global Logistics Solutions</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
     </nav>
   );
 
