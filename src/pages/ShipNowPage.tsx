@@ -187,7 +187,8 @@ export default function ShipNowPage() {
     try {
       const newOrderNumber = generateOrderNumber();
       
-      const { error } = await supabase.from("shipping_orders").insert({
+      // Insert shipping order
+      const { error: orderError } = await supabase.from("shipping_orders").insert({
         order_number: newOrderNumber,
         origin_name: formData.originName,
         origin_address: formData.originAddress,
@@ -214,7 +215,29 @@ export default function ShipNowPage() {
         user_id: user?.id || null,
       });
 
-      if (error) throw error;
+      if (orderError) throw orderError;
+
+      // Create corresponding shipment for tracking
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: shipmentError } = await (supabase.rpc as any)(
+        "create_shipment_from_order",
+        {
+          p_order_number: newOrderNumber,
+          p_origin_city: formData.originCity,
+          p_origin_country: formData.originCountry,
+          p_destination_city: formData.destCity,
+          p_destination_country: formData.destCountry,
+          p_sender_name: formData.originName,
+          p_recipient_name: formData.destName,
+          p_weight_kg: parseFloat(formData.weight),
+          p_shipping_method: formData.shippingMethod,
+        }
+      );
+
+      if (shipmentError) {
+        console.error("Shipment creation error:", shipmentError);
+        // Order was created but shipment failed - still show success
+      }
 
       setOrderNumber(newOrderNumber);
       setStep(4);

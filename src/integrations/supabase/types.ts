@@ -228,7 +228,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_shipment_from_order: {
+        Args: {
+          p_destination_city: string
+          p_destination_country: string
+          p_order_number: string
+          p_origin_city: string
+          p_origin_country: string
+          p_recipient_name: string
+          p_sender_name: string
+          p_shipping_method: string
+          p_weight_kg: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
