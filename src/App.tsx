@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Lazy load page components for code splitting
 const LogisticsHome = lazy(() => import("./pages/LogisticsHome"));
@@ -38,14 +39,14 @@ const App = () => (
           <Routes>
             <Route path="/" element={<LogisticsHome />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/tracking" element={<TrackingPage />} />
-            <Route path="/ship-now" element={<ShipNowPage />} />
+            <Route path="/tracking" element={<ProtectedRoute><TrackingPage /></ProtectedRoute>} />
+            <Route path="/ship-now" element={<ProtectedRoute><ShipNowPage /></ProtectedRoute>} />
             <Route path="/air-freight" element={<ServicesPage />} />
             <Route path="/ocean-freight" element={<ServicesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
