@@ -20,7 +20,6 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navItems = [
   { name: "Home", path: "/", icon: Home },
-  { name: "Ship Now", path: "/ship-now", icon: Package },
   { name: "Track Shipment", path: "/tracking", icon: Truck },
   { name: "Services", path: "/services", icon: Plane },
   { name: "About Us", path: "/about", icon: Users },

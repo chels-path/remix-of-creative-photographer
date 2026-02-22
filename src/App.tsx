@@ -5,16 +5,17 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { AdminRoute } from "@/components/auth/AdminRoute";
 
 // Lazy load page components for code splitting
 const LogisticsHome = lazy(() => import("./pages/LogisticsHome"));
 const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const TrackingPage = lazy(() => import("./pages/TrackingPage"));
-const ShipNowPage = lazy(() => import("./pages/ShipNowPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -39,14 +40,14 @@ const App = () => (
           <Routes>
             <Route path="/" element={<LogisticsHome />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/tracking" element={<ProtectedRoute><TrackingPage /></ProtectedRoute>} />
-            <Route path="/ship-now" element={<ProtectedRoute><ShipNowPage /></ProtectedRoute>} />
+            <Route path="/tracking" element={<TrackingPage />} />
             <Route path="/air-freight" element={<ServicesPage />} />
             <Route path="/ocean-freight" element={<ServicesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
