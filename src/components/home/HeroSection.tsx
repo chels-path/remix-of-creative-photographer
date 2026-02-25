@@ -111,17 +111,17 @@ export function HeroSection() {
             className="flex flex-wrap gap-4"
           >
             <Link
-              to="/ship-now"
+              to="/tracking"
               className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold transition-all hover:bg-primary/90 orange-glow"
             >
-              Ship Now
+              Track Shipment
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/tracking"
+              to="/services"
               className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-foreground rounded-xl font-semibold transition-all hover:bg-secondary/80 border border-border"
             >
-              Track Shipment
+              Our Services
             </Link>
           </motion.div>
         </div>
